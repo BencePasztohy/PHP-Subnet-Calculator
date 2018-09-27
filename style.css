@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+body {
+    background: #e6e6e6;
+}
+main {
+    background: #bfbfbf;
+    width: 800px;
+    height: 500px;
+    margin: auto auto;
+    border: 15px solid #808080;
+    border-radius: 40px;
+    padding: 20px;
+}
+#errorMessage {
+    color: red;
+}
