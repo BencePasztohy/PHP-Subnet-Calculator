@@ -222,12 +222,15 @@
 					$sm[3]=224;
 					break;
 				case "28":
-					$sm[3]=248;
+					$sm[3]=240;
 					break;	
 				case "29":
-					$sm[3]=252;
+					$sm[3]=248;
 					break;
 				case "30":
+					$sm[3]=252;
+					break;	
+				case "31":
 					$sm[3]=254;
 					break;	
 				default:
