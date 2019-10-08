@@ -402,6 +402,11 @@
 
 			}
 
+			echo "<tr>";
+			echo "<td>Wildcard mask: </td>";
+			echo "<td>".(255-$sm[0]).".".(255-$sm[1]).".".(255-$sm[2]).".".(255-$sm[3])."</td>";
+			echo "</tr>";
+
 			echo "</table>";
 			?>
 	</main>
