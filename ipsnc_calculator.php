@@ -25,7 +25,7 @@
 				if ($input < 1 || $input > 32) {
 					echo "$input is not a valid Subnet Mask.";
 					die;
-				} else if ($input > 30) {
+				} else if ($input > 31) { // Actually 31 is used for P2P connections. Mostly between two routers
 					echo "No assignable addresses with Subnet Mask $input.";
 					die;
 				} else return $input;
@@ -47,6 +47,7 @@
 			$sm=array(255,255,255,255);
 
             $number_of_addresses=pow(2,32-$input[4]);
+            $is_p2p = $number_of_addresses == 2;
 
 			switch ($input[4]) {
 				case "1":
@@ -350,35 +351,57 @@
 			echo "</tr>";
 
 			echo "<tr>";
-			echo "<td>Assignable addresses: </td>";
-			echo "<td>".number_format($number_of_addresses-2,0,' ',' ')."</td>";
-			echo "</tr>";
+			echo "<td>Assignable addresses: </td><td>";
+			if ($is_p2p) {
+				echo "2 (Only on P2P connection)";
+			} else {
+				echo number_format($number_of_addresses-2,0,' ',' ');
+			}
+			echo "</td></tr>";
+
 
 			echo "<tr>";
 			echo "<td>Mask: </td>";
 			echo "<td>".$sm[0].".".$sm[1].".".$sm[2].".".$sm[3]. "</td>";
 			echo "</tr>";
 
-			echo "<tr>";
-			echo "<td>Subnet address: </td>";
-			echo "<td>".bindec($first_ip[0]).".".bindec($first_ip[1]).".".bindec($first_ip[2]).".".bindec($first_ip[3])."</td>";
-			echo "</tr>";
+			if ($is_p2p) { // P2P connections have no such thing as bcast or network addresses
 
-			echo "<tr>";
-			echo "<td>First IP: </td>";
-			echo "<td>".bindec($first_ip[0]).".".bindec($first_ip[1]).".".bindec($first_ip[2]).".".bindec($first_ip[3]+1)."</td>";
-			echo "</tr>";
+				echo "<tr>";
+				echo "<td>First IP: </td>";
+				echo "<td>".bindec($first_ip[0]).".".bindec($first_ip[1]).".".bindec($first_ip[2]).".".bindec($first_ip[3])."</td>";
+				echo "</tr>";
 
-			$last_address=$last_ip[3]-1;
-			echo "<tr>";
-			echo "<td>Last IP: </td>";
-			echo "<td>".$last_ip[0].".".$last_ip[1].".".$last_ip[2].".".$last_address."</td>";
-			echo "</tr>";
+				echo "<tr>";
+				echo "<td>Last IP: </td>";
+				echo "<td>".$last_ip[0].".".$last_ip[1].".".$last_ip[2].".".$last_ip[3]."</td>";
+				echo "</tr>";
 
-			echo "<tr>";
-			echo "<td>Broadcast address: </td>";
-			echo "<td>".$last_ip[0].".".$last_ip[1].".".$last_ip[2].".".$last_ip[3]."</td>";
-			echo "</tr>";
+			} else {
+
+				echo "<tr>";
+				echo "<td>Subnet address: </td>";
+				echo "<td>".bindec($first_ip[0]).".".bindec($first_ip[1]).".".bindec($first_ip[2]).".".bindec($first_ip[3])."</td>";
+				echo "</tr>";
+
+				echo "<tr>";
+				echo "<td>First IP: </td>";
+				echo "<td>".bindec($first_ip[0]).".".bindec($first_ip[1]).".".bindec($first_ip[2]).".".bindec($first_ip[3]+1)."</td>";
+				echo "</tr>";
+
+				$last_address=$last_ip[3]-1;
+				echo "<tr>";
+				echo "<td>Last IP: </td>";
+				echo "<td>".$last_ip[0].".".$last_ip[1].".".$last_ip[2].".".$last_address."</td>";
+				echo "</tr>";
+
+				echo "<tr>";
+				echo "<td>Broadcast address: </td>";
+				echo "<td>".$last_ip[0].".".$last_ip[1].".".$last_ip[2].".".$last_ip[3]."</td>";
+				echo "</tr>";
+
+			}
+
 			echo "</table>";
 			?>
 	</main>
