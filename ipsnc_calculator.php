@@ -45,6 +45,9 @@
 
 			$last_ip=array(-1,-1,-1,-1);
 			$sm=array(255,255,255,255);
+
+            $number_of_addresses=pow(2,32-$input[4]);
+
 			switch ($input[4]) {
 				case "1":
 					$sm[0]=128;
@@ -331,7 +334,7 @@
 				}
 			}
 			if ($last_ip[3]<0) {
-				$last_ip[3]=bindec($first_ip[3])+$number_of_addresses;
+				$last_ip[3]=bindec($first_ip[3])+$number_of_addresses-1;
 			}
 			
 			//Display result
@@ -346,7 +349,6 @@
 			echo "<td>".$input_sm."</td>";
 			echo "</tr>";
 
-			$number_of_addresses=pow(2,32-$input[4]);
 			echo "<tr>";
 			echo "<td>Assignable addresses: </td>";
 			echo "<td>".number_format($number_of_addresses-2,0,' ',' ')."</td>";
